@@ -1882,6 +1882,7 @@ HashTag yang Valid : <code>#embed</code>, <code>#model</code>,  <code>#hypernet<
 (Untuk colab yang menggunakan ekstensi sd-webui-additional-networks untuk memuat LoRA, gunakan <code>#addnetlora</code> sebagai gantinya)<br/>
 Gunakan tagar ganda setelah tautan untuk komentar</p>
 
+"""
 testboxplaceholder = f"""#model
 <masukan link model mu disini>
 #vae
