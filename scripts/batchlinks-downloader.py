@@ -1,4 +1,4 @@
-#github.com/vorstcavry
+#github.com/etherealxx
 import os
 import time
 import gradio as gr
@@ -23,7 +23,7 @@ except ImportError: #sdless
     if platform.system() == "Windows":
         userprofile = os.environ['USERPROFILE']
         downloadpath = os.path.join(userprofile, "Downloads")
-        script_path = os.path.join(downloadpath, "stable-diffusion-$masbro")
+        script_path = os.path.join(downloadpath, "stable-diffusion-webui")
     elif platform.system() == "Darwin":
         userhome = os.environ['HOME']
         downloadpath = os.path.join(userhome, "Downloads")
@@ -1829,7 +1829,7 @@ def fillbox():
     if bool(remaininglinks):
         text = list_to_text(remaininglinks)
         remaininglinks = []
-        return [text, 'Tautan diperbarui!\nKlik Unduh Semua! untuk mengunduh tautan lainnya', gr.Button.update(visible=False)]
+        return [text, 'Links updated!\nClick Download All! to download the rest of the links', gr.Button.update(visible=False)]
     return ['', '', gr.Button.update(visible=False)]
 
 def stretchui(stretch):
@@ -1871,25 +1871,33 @@ def buildarrayofhashtags(rightorbottom):
             print(str(e))
     return hashtagandpath
 
-titletext = f"""<h3 style="display: inline-block; font-size: 20px;">Batch Downloader ({currentversion}) {latestversiontext}</h3>"""
+titletext = f"""<h3 style="display: inline-block; font-size: 20px;">⬇️ Batchlinks Downloader ({currentversion}) {latestversiontext}</h3>"""
 introductiontext = f"""
 {titletext}
-<h5 style="display: inline-block; font-size: 14px;"><a href="https://github.com/vorstcavry#latest-release-{currentverforlink}">(apa yang baru?)</a></h5>
-<p style="font-size: 14px;;">Tools ini akan membaca kotak teks dan mengunduh setiap tautan dari atas ke bawah satu per satu<br/>
-Letakkan tautan/link download Anda di bawah ini. Link yang support: Huggingface, CivitAI, MEGA, Discord, Github, Catbox, Google Drive, Pixeldrain, Mediafire, Anonfiles, Dropbox<br/>
-Gunakan hashtag untuk memisahkan item yang diunduh berdasarkan lokasi pengunduhannya<br/>
-HashTag yang Valid : <code>#embed</code>, <code>#model</code>,  <code>#hypernet</code>, <code>#lora</code>, <code>#vae</code>, <code>#addnetlora</code>, etc.<br/>
-(Untuk colab yang menggunakan ekstensi sd-webui-additional-networks untuk memuat LoRA, gunakan <code>#addnetlora</code> sebagai gantinya)<br/>
-Gunakan tagar ganda setelah tautan untuk komentar</p>
-
+<h5 style="display: inline-block; font-size: 14px;"><a href="https://github.com/etherealxx/batchlinks-webui#latest-release-{currentverforlink}">(what's new?)</a></h5>
+<p style="font-size: 14px;;">This tool will read the textbox and download every links from top to bottom one by one<br/>
+Put your links down below. Supported link: Huggingface, CivitAI, MEGA, Discord, Github, Catbox, Google Drive, Pixeldrain, Mediafire, Anonfiles, Dropbox<br/>
+Use hashtag to separate downloaded items based on their download location<br/>
+Valid hashtags: <code>#embed</code>, <code>#model</code>,  <code>#hypernet</code>, <code>#lora</code>, <code>#vae</code>, <code>#addnetlora</code>, etc.<br/>
+(For colab that uses sd-webui-additional-networks extension to load LoRA, use <code>#addnetlora</code> instead)<br/>
+Use double hashtag after links for comment</p>
+"""
+knowmoretext = f"""
+<p style="font-size: 14px;">Click these links for more:<br/>
+<a href="https://github.com/etherealxx/batchlinks-webui">Readme Page</a><br/>
+<a href="https://github.com/etherealxx/batchlinks-webui#example">Example</a><br/>
+<a href="https://github.com/etherealxx/batchlinks-webui#syntax">Syntax</a><br/>
+<a href="https://github.com/etherealxx/batchlinks-webui#valid-hashtags">Valid Hashtags</a><br/>
+<a href="https://github.com/etherealxx/batchlinks-webui/blob/main/howtogetthedirectlinks.md">Here's how you can get the direct links</a><br/>
+<a href="https://github.com/etherealxx/batchlinks-webui/issues">Report Bug</a></p>
 """
 testboxplaceholder = f"""#model
-<masukan link model mu disini>
+<your model link here>
 #vae
-<masukan link vae mu disini>
+<your vae link here>
 #lora
-<masukan link lora mu disini>
-##ini adalah komentar, dan teks ini hanyalah sebuah contoh
+<your lora link here>
+##this is a comment, and these text is just an example
 """
 
 def on_ui_tabs():     
@@ -1947,14 +1955,14 @@ def on_ui_tabs():
                 with gr.Row():
                     if gradiostate == True:
                         with gr.Column(scale=2, min_width=100):
-                            btn_run = gr.Button("Download semua!", variant="primary")
+                            btn_run = gr.Button("Download All!", variant="primary")
                         # btn_upload = gr.UploadButton("Upload .txt", file_types="text")
                         # btn_upload.upload(uploaded, btn_upload, file_output)
                         with gr.Column(scale=1, min_width=100):
                             btn_cancel = gr.Button("Cancel")
                                         
                     else:
-                        btn_run = gr.Button("Download semua!", variant="primary")
+                        btn_run = gr.Button("Download All!", variant="primary")
                         btn_resume = gr.Button("Resume Download", visible=False)
                     with gr.Column(scale=1, min_width=100):
                         file_output = gr.UploadButton(file_types=['.txt'], label='Upload txt')
@@ -1962,7 +1970,8 @@ def on_ui_tabs():
                     with gr.Row():
                         gr.Markdown(
                         f"""
-                        <p style="font-size: 14px; text-align: center; line-height: 90%;;"><br/>Setelah mengklik tombol Download Semua, disarankan untuk memeriksa colab, karena semua informasi tentang kemajuan pengunduhan ada di sana.</p>
+                        <p style="font-size: 14px; text-align: center; line-height: 90%;;"><br/>After clicking the Download All button, it's recommended to inspect the
+                        colab console, as every information about the download progress is there.</p>
                         """)
 
                 if gradiostate == False:
@@ -1974,7 +1983,7 @@ def on_ui_tabs():
                 file_output.upload(uploaded, file_output, command)
             with gr.Box(visible=True) as boxtohide:
                 # gr.Markdown("""
-                # <h5 style="text-align: center; vertical-align: middle; font-size: 14px;">Jika Anda merasa UI terlalu sempit, klik tombol Peregangan UI di atas.</h5>
+                # <h5 style="text-align: center; vertical-align: middle; font-size: 14px;">If you feel the UI is too cramped, click the Stretch UI button above.</h5>
                 # """)
                 with gr.Accordion("List of Every Hashtags and its Path", open=False, visible=True) as rightlist:
                     righttable = gr.DataFrame(
@@ -1994,7 +2003,7 @@ def on_ui_tabs():
             )
         gr.Markdown(
         f"""
-        <center><p style="font-size: 12px; color: gray">Remake ❤️ by <a href="https://github.com/vorstcavry">vorstcavry</a></p></center>
+        <center><p style="font-size: 12px; color: gray">Made with ❤️ by <a href="https://github.com/etherealxx">etherealxx</a></p></center>
         """)
         helphider.change(hidehelp, helphider, outputs=[introduction, knowmore])
         uistretcher.change(stretchui, uistretcher, outputs=[boxtohide, rightlist, bottomlist])
