@@ -1,4 +1,4 @@
-#github.com/etherealxx
+#github.com/vorstcavry
 import os
 import time
 import gradio as gr
@@ -23,7 +23,7 @@ except ImportError: #sdless
     if platform.system() == "Windows":
         userprofile = os.environ['USERPROFILE']
         downloadpath = os.path.join(userprofile, "Downloads")
-        script_path = os.path.join(downloadpath, "stable-diffusion-webui")
+        script_path = os.path.join(downloadpath, "stable-diffusion-$masbro")
     elif platform.system() == "Darwin":
         userhome = os.environ['HOME']
         downloadpath = os.path.join(userhome, "Downloads")
